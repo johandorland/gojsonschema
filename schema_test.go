@@ -329,3 +329,38 @@ func TestIncorrectRef(t *testing.T) {
 	assert.Nil(t, s)
 	assert.Equal(t, "Object has no key 'fail'", err.Error())
 }
+
+func TestAdditionalPropertiesErrorMessage(t *testing.T) {
+	schema := `{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "Device": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}`
+	text := `{
+		"Device":{
+			"Color" : true
+		}
+	}`
+	loader := NewBytesLoader([]byte(schema))
+	result, err := Validate(loader, NewBytesLoader([]byte(text)))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(result.Errors()) != 1 {
+		t.Fatal("Expected 1 error but got", len(result.Errors()))
+	}
+
+	expected := "Device.Color: Invalid type. Expected: string, given: boolean"
+	actual := result.Errors()[0].String()
+	if actual != expected {
+		t.Fatalf("Expected '%s' but got '%s'", expected, actual)
+	}
+}

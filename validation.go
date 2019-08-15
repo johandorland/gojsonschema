@@ -654,7 +654,7 @@ func (v *subSchema) validateObject(currentSubSchema *subSchema, value map[string
 
 				}
 			case *subSchema:
-				validationResult := ap.subValidateWithContext(value[pk], context)
+				validationResult := ap.subValidateWithContext(value[pk], NewJsonContext(pk, context))
 				result.mergeErrors(validationResult)
 			}
 		}
