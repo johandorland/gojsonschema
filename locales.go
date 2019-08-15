@@ -28,6 +28,7 @@ package gojsonschema
 type (
 	// locale is an interface for defining custom error strings
 	locale interface {
+		False() string
 		Required() string
 		InvalidType() string
 		NumberAnyOf() string
@@ -89,6 +90,10 @@ type (
 	// DefaultLocale is the default locale for this package
 	DefaultLocale struct{}
 )
+
+func (l DefaultLocale) False() string {
+	return "False always fails validation"
+}
 
 func (l DefaultLocale) Required() string {
 	return `{{.property}} is required`

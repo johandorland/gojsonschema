@@ -88,6 +88,18 @@ func (v *subSchema) validateRecursive(currentSubSchema *subSchema, currentNode i
 		internalLog(" %v", currentNode)
 	}
 
+	if currentSubSchema.pass != nil {
+		if !*currentSubSchema.pass {
+			result.addInternalError(
+				new(FalseError),
+				context,
+				currentNode,
+				ErrorDetails{},
+			)
+		}
+		return
+	}
+
 	// Handle referenced schemas, returns directly when a $ref is found
 	if currentSubSchema.refSchema != nil {
 		v.validateRecursive(currentSubSchema.refSchema, currentNode, result, context)

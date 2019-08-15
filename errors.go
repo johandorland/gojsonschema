@@ -16,6 +16,12 @@ type errorTemplate struct {
 }
 
 type (
+
+	// FalseError. ErrorDetails: -
+	FalseError struct {
+		ResultErrorFields
+	}
+
 	// RequiredError. ErrorDetails: property string
 	RequiredError struct {
 		ResultErrorFields
@@ -177,6 +183,9 @@ func newError(err ResultError, context *JsonContext, value interface{}, locale l
 	var t string
 	var d string
 	switch err.(type) {
+	case *FalseError:
+		t = "false"
+		d = locale.False()
 	case *RequiredError:
 		t = "required"
 		d = locale.Required()

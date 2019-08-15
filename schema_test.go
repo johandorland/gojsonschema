@@ -312,7 +312,7 @@ func TestLocationIndependentIdentifier(t *testing.T) {
 		t.Errorf("Got error: %s", err.Error())
 	}
 
-	if len(result.Errors()) != 2 || result.Errors()[0].Type() != "number_not" || result.Errors()[1].Type() != "number_all_of" {
+	if len(result.Errors()) != 2 || result.Errors()[0].Type() != "false" || result.Errors()[1].Type() != "number_all_of" {
 		t.Errorf("Got invalid validation result.")
 	}
 }

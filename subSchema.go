@@ -79,13 +79,15 @@ const (
 type subSchema struct {
 	draft *Draft
 
-
 	// basic subSchema meta properties
 	id          *gojsonreference.JsonReference
 	title       *string
 	description *string
 
 	property string
+
+	// Quick pass/fail for boolean schemas
+	pass *bool
 
 	// Types associated with the subSchema
 	types jsonSchemaType

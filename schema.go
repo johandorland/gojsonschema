@@ -83,11 +83,8 @@ func (d *Schema) parseSchema(documentNode interface{}, currentSchema *subSchema)
 	// As of draft 6 "true" is equivalent to an empty schema "{}" and false equals "{"not":{}}"
 	if *currentSchema.draft != Draft4 && isKind(documentNode, reflect.Bool) {
 		b := documentNode.(bool)
-		if b {
-			documentNode = map[string]interface{}{}
-		} else {
-			documentNode = map[string]interface{}{"not": true}
-		}
+		currentSchema.pass = &b
+		return nil
 	}
 
 	if !isKind(documentNode, reflect.Map) {
